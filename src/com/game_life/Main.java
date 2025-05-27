@@ -8,9 +8,39 @@ public class Main {
 
     // main
     public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        Drawer drawer = create_window_game();
+        JButton[] buttons = ButtonWindow.create_window();
+
+        // Цикл окна игры
+        javax.swing.Timer game = new javax.swing.Timer((int) (0.1 * 1000), e -> {
+            boolean[][] map = game_life.next_gen();
+            drawer.setMap(map);
+            drawer.repaint();
+        });
+
+        buttons[0].addActionListener(e -> { // Старт\стоп
+            if (game.isRunning()) {
+                game.stop();
+                buttons[0].setText("Старт");
+            } else {
+                game.start();
+                buttons[0].setText("Стоп");
+            }
+        });
+
+        buttons[1].addActionListener(e -> {
+            drawer.setMap(game_life.clear_map());
+            drawer.repaint();
+        });
+
+    }
+
+
+
+    private static Drawer create_window_game() {
         Dimension screen_size = Toolkit.getDefaultToolkit().getScreenSize();
         int display = screen_size.height;
-        Scanner in = new Scanner(System.in);
 
         JFrame frame = new JFrame("Окновввв"); // Создаем окно
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // По какой кнопке закрывается окно (выход)
@@ -21,27 +51,6 @@ public class Main {
         frame.add(drawer);
         frame.setVisible(true); // Открываем окно
 
-        double delay = 0.1;
-
-        javax.swing.Timer game = new javax.swing.Timer((int) (delay*1000), e -> {
-            boolean[][] map = game_life.next_gen();
-            drawer.setMap(map);
-            drawer.repaint();
-        });
-
-        while (true) {
-            String q;
-            if (game.isRunning()) {
-                System.out.print("Остановить: ");
-                q = in.nextLine();
-                if (q.contains("y")) game.stop();
-            } else {
-                System.out.print("Начать: ");
-                q = in.nextLine();
-                if (q.contains("y")) game.start();
-            }
-        }
-
+        return drawer;
     }
-
 }

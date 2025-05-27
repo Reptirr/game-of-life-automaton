@@ -1,10 +1,10 @@
 package com.game_life;
 
 public class game_life {
-    private static boolean[][] map = new boolean[53][53];
+    private static boolean[][] map = new boolean[MapSize.size][MapSize.size];
 
     public static boolean[][] next_gen() {
-        boolean[][] new_map = new boolean[53][53];
+        boolean[][] new_map = new boolean[MapSize.size][MapSize.size];
 
         // Перебираем все поле, считаем соседей
         for (int y_m = 0; y_m < map.length; y_m++) {
@@ -65,13 +65,17 @@ public class game_life {
         return (byte) num_nei;
     }
 
-    public static void create_fig() {
-        for (int x = 23; x < 23+3; x++) {
-            map[x][23] = true;
-        }
-    }
-
     public static boolean[][] get_map() {
         return map;
     }
+
+    public static boolean[][] clear_map() {
+        for (int x = 0; x < map.length; x++) {
+            for (int y = 0; y < map[0].length; y++) {
+                map[x][y] = false;
+            }
+        }
+        return map;
+    }
+
 }
