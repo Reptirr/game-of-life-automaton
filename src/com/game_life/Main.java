@@ -42,6 +42,8 @@ public class Main {
 
         buttons.get(2).addActionListener(e -> {
             game_rules.size = Integer.parseInt(ButtonWindow.getInput());
+            game_life.update_map();
+            drawer.setMap(game_life.get_map());
             drawer.repaint();
         });
 
@@ -89,6 +91,11 @@ public class Main {
 
         buttons.get(4).addActionListener(e -> {
             game.setDelay(Integer.parseInt(fields.get(3).getText()));
+        });
+
+        buttons.get(5).addActionListener(e -> {
+           game_life.rand_map();
+           drawer.repaint();
         });
 
         checks.get(0).addItemListener(e -> {
