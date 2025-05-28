@@ -1,21 +1,20 @@
 package com.game_life;
 
 public class game_life {
-    private static boolean[][] map = new boolean[MapSize.size][MapSize.size];
+    private static boolean[][] map = new boolean[game_rules.size][game_rules.size];
 
     public static boolean[][] next_gen() {
-        boolean[][] new_map = new boolean[MapSize.size][MapSize.size];
+        boolean[][] new_map = new boolean[game_rules.size][game_rules.size];
 
         // Перебираем все поле, считаем соседей
         for (int y_m = 0; y_m < map.length; y_m++) {
             for(int x_m = 0; x_m < map.length; x_m++) {
                 // Работа с клеткой
                 byte num_nei = 0;
+                num_nei = num_neighbours(new int[]{x_m, y_m});
                 try {
-                    num_nei = num_neighbours(new int[]{x_m, y_m});
-                } catch (Exception _) {
-                }
-                new_map[x_m][y_m] = rule_boss(map[x_m][y_m], num_nei);
+                    new_map[x_m][y_m] = rule_boss(map[x_m][y_m], num_nei);
+                } catch (Exception _) {}
             }
         }
         map = new_map;
@@ -23,16 +22,19 @@ public class game_life {
     }
 
     private static boolean rule_boss(boolean rect, byte num_nei) {
+        byte[] B = game_rules.B;
+        byte[] S = game_rules.S;
         if (rect) {
-            if (num_nei < 2) return false;
-            if (num_nei == 2 || num_nei == 3) return true;
-            if (num_nei > 3) return false;
+            for (int si = 0; si < 10; si++) {
+                if (num_nei == S[si]) return true;
+            }
+            return false;
         } else {
-            if (num_nei == 3) return true;
-            if (num_nei != 3) return false;
+            for (int bi = 0; bi < 10; bi++) {
+                if (num_nei == B[bi]) return true;
+            }
+            return false;
         }
-
-        return rect;
     }
 
 
@@ -48,18 +50,31 @@ public class game_life {
         int num_nei = 0;
         int x = rect_i[0];
         int y = rect_i[1];
-        int rows = map.length;
-        int cols = map[0].length;
 
-        if (x > 0 && map[x - 1][y]) num_nei++;
-        if (x < rows - 1 && map[x + 1][y]) num_nei++;
-        if (y > 0 && map[x][y - 1]) num_nei++;
-        if (y < cols - 1 && map[x][y + 1]) num_nei++;
-        if (x > 0 && y > 0 && map[x - 1][y - 1]) num_nei++;
-        if (x < rows - 1 && y > 0 && map[x + 1][y - 1]) num_nei++;
-        if (x > 0 && y < cols - 1 && map[x - 1][y + 1]) num_nei++;
-        if (x < rows - 1 && y < cols - 1 && map[x + 1][y + 1]) num_nei++;
 
+        if (game_rules.is_foneim) {
+            // Соседство Фоннейма
+            // Смотри по вертикали
+            try {
+                if (map[x][y - 1]) num_nei++; // Смотрим сверху
+                if (map[x][y + 1]) num_nei++; // Смотрим снизу
+                // Смотрим по горизонтали
+                if (map[x - 1][y]) num_nei++; // Смотрим слева
+                if (map[x + 1][y]) num_nei++; // Смотрим справа
+            } catch (Exception _) {}
+        } else {
+            // Соседство Мурра
+            for (int dy = -1; dy < 2; dy++) {
+                for (int dx = -1; dx < 2; dx++) {
+                    int xt = x + dx;
+                    int yt = y + dy;
+                    if (dy == 0 && dx == 0) continue;
+                    try {
+                        if (map[xt][yt]) num_nei++;
+                    } catch (Exception _) {}
+                }
+            }
+        }
 
 
         return (byte) num_nei;

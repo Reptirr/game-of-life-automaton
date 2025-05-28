@@ -12,8 +12,6 @@ public class Drawer extends JPanel {
     private double recty_size;
     private double rectx_size;
 
-    private boolean is_log_nei = false;
-
     // Функция рисования в окне отображения
     @Override
     protected void paintComponent(Graphics g) {
@@ -21,7 +19,7 @@ public class Drawer extends JPanel {
 
         Graphics2D g2d = (Graphics2D) g;
 
-        int rects_num = MapSize.size * MapSize.size;
+        int rects_num = game_rules.size * game_rules.size;
         double rects = Math.sqrt(rects_num);
 
         int mx = getWidth();
@@ -39,7 +37,8 @@ public class Drawer extends JPanel {
                 try {
                     num_nei = game_life.num_neighbours(new int[]{x_num, y_num});
                 } catch (Exception _) {}
-                if (is_log_nei) {
+
+                if (game_rules.is_log_nei) {
                     g2d.setColor(Color.BLUE);
                     FontMetrics fm = g2d.getFontMetrics();
                     String s = String.valueOf( num_nei);
@@ -50,11 +49,17 @@ public class Drawer extends JPanel {
 
                 // g2d.setColor(Color.DARK_GRAY);
                 g2d.setColor(Color.white);
-                if (map[x_num][y_num]) {
-                    g2d.fillRect((int) (x_num * rectx_size), (int) (y_num * recty_size), (int) rectx_size, (int) recty_size);
-                } else {
-                    // g2d.drawRect((int) (x_num * rectx_size), (int) (y_num * recty_size), (int) rectx_size, (int) recty_size);
-                }
+                try {
+                    if (map[x_num][y_num]) {
+                        g2d.setColor(Color.white);
+                        g2d.fillRect((int) (x_num * rectx_size), (int) (y_num * recty_size), (int) rectx_size, (int) recty_size);
+                    } else {
+                        if (game_rules.is_grid) {
+                            g2d.setColor(Color.GRAY);
+                            g2d.drawRect((int) (x_num * rectx_size), (int) (y_num * recty_size), (int) rectx_size, (int) recty_size);
+                        }
+                    }
+                } catch (Exception _) {}
             }
         }
 
@@ -76,6 +81,7 @@ public class Drawer extends JPanel {
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseDragged(MouseEvent e) {
+                if ((e.getY()< 0 || e.getX() < 0) || (e.getY() > getHeight() || e.getX() > getWidth())) return;
                 int x = (int) (e.getX() / rectx_size);
                 int y = (int) (e.getY() / recty_size);
 
@@ -102,8 +108,5 @@ public class Drawer extends JPanel {
         this.map = m;
     }
 
-    public void setLog(boolean is_l_n) {
-        is_log_nei = is_l_n;
-    }
 
 }
