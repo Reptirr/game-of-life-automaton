@@ -1,5 +1,7 @@
 package com.game_life;
 
+import java.util.Random;
+
 public class game_life {
     private static boolean[][] map = new boolean[game_rules.size][game_rules.size];
 
@@ -91,6 +93,30 @@ public class game_life {
             }
         }
         return map;
+    }
+
+    public static void rand_map() {
+        for (int x = 0; x < map.length; x++) {
+            for (int y = 0; y < map[0].length; y++) {
+                map[x][y] = new Random().nextBoolean();
+            }
+        }
+    }
+
+    public static void update_map() {
+        boolean[][] new_map = new boolean[game_rules.size][game_rules.size];
+
+        // Перебираем все поле, считаем соседей
+        for (int y_m = 0; y_m < map.length; y_m++) {
+            for(int x_m = 0; x_m < map.length; x_m++) {
+                // Работа с клеткой
+                try {
+                    new_map[x_m][y_m] = map[x_m][y_m];
+                } catch (Exception _) {}
+
+            }
+        }
+        map = new_map;
     }
 
 }

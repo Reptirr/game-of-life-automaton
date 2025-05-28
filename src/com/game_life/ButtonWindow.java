@@ -14,7 +14,7 @@ public class ButtonWindow {
 
     public static void create_window() {
         JFrame frame = new JFrame();
-        frame.setSize(285, 400);
+        frame.setSize(285, 425);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Фиксирование размеров экрана
@@ -35,11 +35,12 @@ public class ButtonWindow {
         buttons.add(new JButton("Установить настройки"));                 // 3
         buttons.add(new JButton("<html>Установить<br>скорость</html>"));  // 4
         buttons.get(4).setPreferredSize(new Dimension(0, 34));
+        buttons.add(new JButton("Рандомизировать"));                      // 5
 
         // Поля для ввода
         fields.add(new JTextField()); // Поле для размера 0
-        fields.add(new JTextField()); // Поле для B       1
-        fields.add(new JTextField()); // Поле для S       2
+        fields.add(new JTextField("3")); // Поле для B       1
+        fields.add(new JTextField("23")); // Поле для S       2
         fields.add(new JTextField()); // Поле для V       3
         for (int i = 0; i < fields.size(); i++) {
             fields.get(i).setColumns(10);
@@ -47,10 +48,10 @@ public class ButtonWindow {
         }
 
         // Текста
-        labels.add(new JLabel("Правила"));
+        labels.add(new JLabel("Правила"));        // 0
         labels.get(0).setFont(new Font("Arial", Font.PLAIN, 20));
-        labels.add(new JLabel("Оживает при"));
-        labels.add(new JLabel("Живет при"));
+        labels.add(new JLabel("Оживает при"));    // 1
+        labels.add(new JLabel("Живет при"));      // 2
 
         // Чек бокс
         JCheckBox check_foneim = new JCheckBox("Соседство Фонейма");
@@ -80,24 +81,30 @@ public class ButtonWindow {
         gbc.gridx = 1;
         main_panel.add(buttons.get(2), gbc); // Установивть размер
 
-        // Третья строка
-        gbc.insets = new Insets(15, 5, 5, 5);
+        // Четвертая строка
         gbc.gridy = 2;
+        gbc.gridx = 0;
+        gbc.gridwidth = 2;
+        main_panel.add(buttons.get(5), gbc);
+
+        // Четвертая строка
+        gbc.insets = new Insets(15, 5, 5, 5);
+        gbc.gridy = 3;
         gbc.gridx = 0;
         gbc.gridwidth = 2; // Растянуто на 2 колонки
         labels.get(0).setHorizontalAlignment(SwingConstants.CENTER); // Правила
         main_panel.add(labels.get(0), gbc); // Правила
 
-        // Четвертая строка
+        // Пятая строка
         gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         check_foneim.setHorizontalAlignment(SwingConstants.CENTER); // Чек бокс
         main_panel.add(check_foneim, gbc);
 
-        // Пятая строка
-        gbc.gridy = 4;
+        // Шестая строка
+        gbc.gridy = 5;
         gbc.gridx = 0;
         gbc.gridwidth = 1;
         check_log_nei.setHorizontalAlignment(SwingConstants.CENTER); // Показывать соседей
@@ -106,35 +113,35 @@ public class ButtonWindow {
         gbc.gridx = 1;
         main_panel.add(check_grid, gbc);   // Сетка
 
-        // Шестая строка
-        gbc.gridy = 5;
+        // Седьмая строка
+        gbc.gridy = 6;
         gbc.gridx = 0;
         main_panel.add(labels.get(1), gbc); // Когда оживет
         gbc.gridx = 1;
         main_panel.add(fields.get(1), gbc); // Ввод когда оживает
 
-        // Седьмая строка
-        gbc.gridy = 6;
+        // Восьмая строка
+        gbc.gridy = 7;
         gbc.gridx = 0;
         main_panel.add(labels.get(2), gbc); // Когда живет
         gbc.gridx = 1;
         main_panel.add(fields.get(2), gbc); // Ввод когда живет
 
-        // Восьмая строка
-        gbc.gridy = 7;
+        // Девятая строка
+        gbc.gridy = 8;
         gbc.gridx = 0;
         gbc.gridwidth = 2;
         gbc.anchor = GridBagConstraints.CENTER;
         main_panel.add(buttons.get(3), gbc); // Установить настройки
 
-        // Девятая строка
-        gbc.gridy = 8;
+        // Десятая строка
+        gbc.gridy = 9;
         gbc.gridx = 0;
         gbc.gridwidth = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        main_panel.add(fields.get(3), gbc);
+        main_panel.add(fields.get(3), gbc); // Ввод скорости
         gbc.gridx = 1;
-        main_panel.add(buttons.get(4), gbc);
+        main_panel.add(buttons.get(4), gbc); // Ввод скорости
 
 
 
