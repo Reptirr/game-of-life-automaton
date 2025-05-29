@@ -147,7 +147,8 @@ public class Main {
 
 
 
-        Drawer drawer = new Drawer(game_life.get_map());
+        Drawer drawer = new Drawer();
+        drawer.setMap(game_life.get_map());
         frame.add(drawer);
         frame.setVisible(true); // Открываем окно
 

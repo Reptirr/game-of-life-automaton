@@ -119,4 +119,5 @@ public class game_life {
         map = new_map;
     }
 
+
 }
